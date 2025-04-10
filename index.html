@@ -1,0 +1,31 @@
+<!-- Replace your current button with this one -->
+<a href="gotja://auth" class="app-button">Open Gotja App</a>
+
+<!-- And replace your current script with this -->
+<script>
+    // Get the current URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    let redirectUrl = "gotja://auth";
+    
+    // If there are any params, append them to the redirect URL
+    if (urlParams.toString()) {
+        redirectUrl += "?" + urlParams.toString();
+    }
+    
+    // Update the button's href
+    document.querySelector('.app-button').href = redirectUrl;
+    
+    // Try to open the app automatically using multiple methods
+    setTimeout(function() {
+        // Method 1: Regular window location (less reliable)
+        window.location.href = redirectUrl;
+        
+        // Method 2: Create iframe (more reliable for iOS)
+        setTimeout(function() {
+            var iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = redirectUrl;
+            document.body.appendChild(iframe);
+        }, 500);
+    }, 1000);
+</script>
