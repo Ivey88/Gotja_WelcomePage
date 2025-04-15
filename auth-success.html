@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-itunes-app" content="app-id=YOUR_APP_ID, app-argument=authentication">
+    <title>Gotja Authentication Success</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Retrieve the stored auth params by reference ID
+        const urlParams = new URLSearchParams(window.location.search);
+        const refId = urlParams.get('ref');
+        
+        if (refId && refId === localStorage.getItem('gotja_auth_reference')) {
+            const authParams = localStorage.getItem('gotja_auth_params');
+            
+            if (authParams) {
+                // Convert stored JSON back to query parameters
+                const params = JSON.parse(authParams);
+                const queryString = Object.keys(params)
+                    .map(key => `${key}=${encodeURIComponent(params[key])}`)
+                    .join('&');
+                
+                // Try Universal Link first (iOS 9.2+)
+                window.location.href = `https://ivey88.github.io/Gotja_WelcomePage/auth-handle?${queryString}`;
+                
+                // Fallback to URL scheme
+                setTimeout(() => {
+                    window.location.href = `gotja://auth-callback?${queryString}`;
+                }, 500);
+            }
+        }
+    </script>
+    <h1>Authentication Complete</h1>
+    <p>Returning to Gotja app...</p>
+</body>
+</html>
