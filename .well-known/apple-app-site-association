@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "com.leoniveygames.gotja",
-        "paths": ["/auth/*", "/auth-success*", "/auth-callback*", "/auth-handle*"]
+        "paths": ["*", "/auth-callback*", "/auth-handle*"]
       }
     ]
   }
